@@ -5,6 +5,8 @@
       <map>
         <entry key="..\:/xN/programming/CriminalIntent/app/src/main/res/layout/activity_main.xml" value="0.3453125" />
         <entry key="..\:/xN/programming/CriminalIntent/app/src/main/res/layout/fragment_crime.xml" value="0.359375" />
+        <entry key="..\:/xN/programming/CriminalIntent/app/src/main/res/layout/fragment_crime_list.xml" value="0.359375" />
+        <entry key="..\:/xN/programming/CriminalIntent/app/src/main/res/layout/list_item_crime.xml" value="0.359375" />
       </map>
     </option>
   </component>
