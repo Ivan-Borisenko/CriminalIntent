@@ -17,5 +17,5 @@ class CrimeListViewModel: ViewModel() {
     }*/
 
     private val crimeRepository = CrimeRepository.get()
-    val /*crimes*/ crimeListLiveData = crimeRepository.getCrimes()
+    val crimeListLiveData = crimeRepository.getCrimes()
 }

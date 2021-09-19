@@ -12,7 +12,7 @@ private const val DATABASE_NAME = "crime-database"
 class CrimeRepository private constructor(context: Context) {
 //это синглтон, антипаттерн, он уничтожится когда приложение удалится из памяти
 
-    private var database : CrimeDatabase = Room.databaseBuilder(
+    private val database : CrimeDatabase = Room.databaseBuilder(
         context.applicationContext,
         CrimeDatabase::class.java,
         DATABASE_NAME

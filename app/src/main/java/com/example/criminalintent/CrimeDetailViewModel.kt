@@ -11,7 +11,8 @@ class CrimeDetailViewModel() : ViewModel() {
     private val crimeRepository = CrimeRepository.get()    //хранит связь с CrimeRepository
     private val crimeIdLiveData = MutableLiveData<UUID>()   //хранит идентификатор отображаемого в данный момент преступления фрагментом CrimeFragment
 
-    var crimeLiveData: LiveData<Crime?> = Transformations.switchMap(crimeIdLiveData) { crimeId ->
+    var crimeLiveData: LiveData<Crime?> =
+        Transformations.switchMap(crimeIdLiveData) { crimeId ->
         crimeRepository.getCrime(crimeId)
     }
 

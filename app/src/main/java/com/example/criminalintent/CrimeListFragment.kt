@@ -8,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -20,23 +19,22 @@ private const val TAG = "CrimeListFragment"
 
 class CrimeListFragment : Fragment() {
 
+    private lateinit var crimeRecyclerView: RecyclerView
+    //private var adapter: CrimeAdapter? = null
+    private var adapter: CrimeAdapter = CrimeAdapter(emptyList())
+    private val crimeListViewModel: CrimeListViewModel by lazy {
+        ViewModelProviders.of(this).get(CrimeListViewModel::class.java)
+    }
+    private var callbacks: Callbacks? = null
+//выполняет неконтролируемую передачу своей activity в CrimeListFragment.Callbacks
+
     interface Callbacks {
         fun onCrimeSelected(crimeId: UUID)
     }
 
-    private var callbacks: Callbacks? = null
-//выполняет неконтролируемую передачу своей activity в CrimeListFragment.Callbacks
-    private lateinit var crimeRecyclerView: RecyclerView
-    //private var adapter: CrimeAdapter? = null
-    private var adapter: CrimeAdapter? = CrimeAdapter(emptyList())
-
-    private val crimeListViewModel: CrimeListViewModel by lazy {
-        ViewModelProviders.of(this).get(CrimeListViewModel::class.java)
-    }
-
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        callbacks = context as Callbacks?
+        callbacks = context as? Callbacks
     }
 
     /*override fun onCreate(savedInstanceState: Bundle?) {
@@ -60,11 +58,9 @@ class CrimeListFragment : Fragment() {
         return view
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        crimeListViewModel.crimeListLiveData.observe(
-            viewLifecycleOwner,
-            Observer { crimes ->
+    override fun onStart() {   //onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onStart()    //super.onViewCreated(view, savedInstanceState)
+        crimeListViewModel.crimeListLiveData.observe(viewLifecycleOwner, Observer { crimes ->
                 crimes?.let {
                     Log.i(TAG, "Got crimes ${crimes.size}")
                     updateUI(crimes)
@@ -81,7 +77,11 @@ class CrimeListFragment : Fragment() {
     //private fun updateUI() {
     private fun updateUI(crimes: List<Crime>) {
         //val crimes = crimeListViewModel.crimes    //больше не существует
-        adapter = CrimeAdapter(crimes)
+        adapter?.let {
+            it.crimes = crimes
+        } ?: run {
+            adapter = CrimeAdapter(crimes)
+        }
         crimeRecyclerView.adapter = adapter
     }
 
@@ -115,7 +115,9 @@ class CrimeListFragment : Fragment() {
     }
 
     private inner class CrimeAdapter(var crimes: List<Crime>) : RecyclerView.Adapter<CrimeHolder>() {
+
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CrimeHolder {
+            val layoutInflater = LayoutInflater.from(context)
             val view = layoutInflater.inflate(R.layout.list_item_crime, parent, false)
             return CrimeHolder(view)
         }
