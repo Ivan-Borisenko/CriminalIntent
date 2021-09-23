@@ -5,6 +5,7 @@ import androidx.room.PrimaryKey
 import java.util.*
 
 @Entity
+//формат хранения преступлений в БД: UUID-номер; title-текст преступления; date-дата; isSolved-статус раскрытия; suspect-имя подозреваемого
 data class Crime(
     @PrimaryKey val id: UUID = UUID.randomUUID(),
     var title: String = "",

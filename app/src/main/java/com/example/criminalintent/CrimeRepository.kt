@@ -1,5 +1,5 @@
 package com.example.criminalintent
-
+//отвечает за всё долгосрочное хранение данных
 import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.room.Room
